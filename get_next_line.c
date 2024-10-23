@@ -21,7 +21,11 @@ char	*extract_line(char **remembrall)
 	//O PROBLEMA DE TUDO ESTÁ AQUI, PRECISAMOS DE UM TRATAMENTO ESPECIAL PARA 
 	//A ÚLTIMA LINHA DO ARQUIVO, QUE PODE OU NÃO TERMINAR EM \n!!!!! 
 	nl_position = ft_strchr(*remembrall, '\n');
-	if (!nl_position)
+	if (nl_position || /*chegou ao final da ultima linha do arquivo*/)
+	{
+		//tratar e retornar a line aqui!!
+	}
+	else
 		return (NULL);
 	line_len = nl_position - *remembrall + 1;
 	line = ft_substr(*remembrall, 0, line_len);
