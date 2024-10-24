@@ -15,7 +15,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+char	*please_free(char *to_be_freed);
 char	*get_next_line(int fd);
+char	*read_and_return(int fd, char **remembrall);
 char	*ft_strdup(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
