@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpires-n <jpires-n@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-10-22 12:45:12 by jpires-n          #+#    #+#             */
-/*   Updated: 2024-10-22 12:45:12 by jpires-n         ###   ########.rio      */
+/*   Created: 2024-10-24 18:36:44 by jpires-n          #+#    #+#             */
+/*   Updated: 2024-10-24 18:36:44 by jpires-n         ###   ########.rio      */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 static char	*please_free(char *to_be_freed)
 {
@@ -76,18 +79,18 @@ static char	*read_and_return(int fd, char **remembrall)
 
 char	*get_next_line(int fd)
 {
-	static char	*remembrall;
+	static char	*remembrall[MAX_FD];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FD)
 		return (NULL);
-	if (!remembrall)
-		remembrall = ft_strdup("");
-	if (!read_and_return(fd, &remembrall))
+	if (!remembrall[fd])
+		remembrall[fd] = ft_strdup("");
+	if (!read_and_return(fd, &remembrall[fd]))
 		return (NULL);
-	if (*remembrall)
-		return (extract_line(&remembrall));
-	free(remembrall);
-	remembrall = NULL;
+	if (remembrall[fd])
+		return (extract_line(&remembrall[fd]));
+	free(remembrall[fd]);
+	remembrall[fd] = NULL;
 	return (NULL);
 }
 
@@ -96,22 +99,33 @@ char	*get_next_line(int fd)
 // #include <fcntl.h>
 // int	main(void)
 // {
-// 	//open("teste.txt", O_RDONLY);
+// 	int fd1 = open("teste.txt", O_RDONLY);
+// 	int fd2 = open("teste2.txt", O_RDONLY);
 // 	char	*line;
 
-// 	line = get_next_line(42);
+
+// 	line = get_next_line(fd1);
 // 	printf("%s", line);
 // 	free(line);
-// 	line = get_next_line(42);
+// 	line = get_next_line(fd2);
 // 	printf("%s", line);
 // 	free(line);
-// 	line = get_next_line(42);
+// 	line = get_next_line(fd1);
 // 	printf("%s", line);
 // 	free(line);
-// 	line = get_next_line(42);
+// 	line = get_next_line(fd2);
 // 	printf("%s", line);
 // 	free(line);
-// 	line = get_next_line(42);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd2);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd1);
+// 	printf("%s", line);
+// 	free(line);
+// 	line = get_next_line(fd2);
 // 	printf("%s", line);
 // 	free(line);
 // 	// //line = get_next_line(fd);
